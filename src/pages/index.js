@@ -1,7 +1,16 @@
-import Head from 'next/head'
 import Image from 'next/image'
+
 import { useEffect, useState } from 'react'
-import styles from '../../styles/Home.module.css'
+
+import axios from "axios";
+
+
+import LightCloud from '../assets/img/LightCloud.png'
+import HeavyRain from '../assets/img/HeavyRain.png'
+import Clear from '../assets/img/Clear.png'
+import Shower from '../assets/img/Shower.png'
+import ThunderStorm from '../assets/img/ThunderStorm.png'
+import HeavyCloud from '../assets/img/HeavyCloud.png'
 
 export default function Home() {
 
@@ -9,7 +18,11 @@ export default function Home() {
   const [minuto, setMinuto] = useState('00')
   const [segundos, setSegundos] = useState('00')
 
+  const [temp, setTemp] = useState(0);
+
+
   function mudaHoras() {
+
     var date = new Date()
     var hours = date.getHours()
     var minutes = date.getMinutes()
@@ -28,46 +41,162 @@ export default function Home() {
     minutes != minuto ? setMinuto(minutes) : null
     seconds != segundos ? setSegundos(seconds) : null
 
-    console.log(hours, minutes, seconds)
   }
 
   useEffect(() => {
+    consultarClima()
     setInterval(() => {
       mudaHoras()
     }, 1000)
   }, []);
 
+  function consultarClima() {
+
+    var data = {
+      lon: -46.6388,
+      lat: -23.5489,
+    }
+
+    var config = {
+      method: 'post',
+      url: '/api/consulta-clima',
+      data: data
+    };
+
+    axios(config)
+
+      .then(function (response) {
+
+        var status = response.data.status ? response.data.status : null
+        var data = response.data.message ? response.data.message : null
+
+        console.log(data)
+        if (status == 200 && data) {
+          var temp = Math.round(data.current.temp)
+          setTemp(temp)
+        }
+        else {
+
+        }
+
+      })
+
+      .catch(function (error) {
+
+      });
+
+  }
   return (
     <>
       <section className="bg">
         <div className="container">
-          <div className="d-flex flex-row gap-1">
 
-            <div className="col-4">
-              <div className="card text-bg-light mb-3">
-                <div className="card-body">
-                  <p className="card-text">{hora}</p>
-                </div>
-              </div>
+          <div className="row padding-20">
+
+            <div className="row">
+              <p className="text-white text-center"> São Paulo, SP, Brasil</p>
             </div>
 
-            <div className="col-4">
-              <div className="card text-bg-light mb-3">
-                <div className="card-body">
-                  <p className="card-text">{minuto}</p>
-                </div>
-              </div>
-            </div>
+            {/* Clima */}
+            <div className="clima">
 
-            <div className="col-4">
-              <div className="card text-bg-light mb-3">
-                <div className="card-body">
-                  <p className="card-text">{segundos}</p>
+              <div className="row">
+
+                <div className="col-2">
+                  <div className="card principal text-bg-light mb-3 py-5 text-center">
+                    <div className="card-body">
+                      <Image src={LightCloud} width={80} height={80}></Image>
+                      <p className="card-text">{temp}ºc</p>
+                    </div>
+                  </div>
                 </div>
+
+                <div className="col-10">
+                  <div className="row">
+
+                    <div className="col">
+                      <div className="card secundario text-center text-bg-light">
+                        <div className="card-body">
+                        <Image src={HeavyRain} width={60} height={60}></Image>
+                          <p className="card-text">{temp}ºc</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="card secundario text-center text-bg-light">
+                        <div className="card-body">
+                        <Image src={Clear} width={60} height={60}></Image>
+                          <p className="card-text">{temp}ºc</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="card secundario text-center text-bg-light">
+                        <div className="card-body">
+                        <Image src={Shower} width={60} height={60}></Image>
+                          <p className="card-text">{temp}ºc</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="card secundario text-center text-bg-light">
+                        <div className="card-body">
+                        <Image src={ThunderStorm} width={60} height={60}></Image>
+                          <p className="card-text">{temp}ºc</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col">
+                      <div className="card secundario text-center text-bg-light">
+                        <div className="card-body">
+                        <Image src={HeavyCloud} width={60} height={50}></Image>
+                          <p className="card-text">{temp}ºc</p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Horas */}
+                    <div className="row justify-content-center horas ms-2 mt-5">
+
+                      <div className="col-4">
+                        <div className="card text-bg-light text-center mb-3">
+                          <div className="card-body">
+                            <p className="card-text">{hora}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-4">
+                        <div className="card text-bg-light text-center mb-3">
+                          <div className="card-body">
+                            <p className="card-text">{minuto}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-4">
+                        <div className="card text-bg-light text-center mb-3">
+                          <div className="card-body">
+                            <p className="card-text">{segundos}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+
+                </div>
+
               </div>
             </div>
 
           </div>
+
         </div>
       </section>
     </>

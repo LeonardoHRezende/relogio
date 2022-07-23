@@ -24,3 +24,25 @@ a {
   background: rgb(22,26,66);
   background: radial-gradient(circle, rgba(22,26,66,1) 0%, rgba(22,26,66,1) 42%, rgba(31,34,64,1) 100%);
 }
+
+/* AJUSTES DE RESPONSIVIDADE */
+.padding-20{
+  padding-top: 20rem;
+}
+
+  /* AJUSTES DE RESPONSIVIDADE */
+
+/* CARDS */
+
+.card{
+  background: rgb(124,185,249);
+  background: radial-gradient(circle, rgba(124,185,249,1) 0%, rgba(132,190,250,1) 42%, rgba(130,170,212,1) 100%);
+}
+.principal{
+  padding: 6.25rem 0 6.25rem 0 !important;
+}
+
+.secundario{
+  padding: 3rem 0 3rem 0 !important;
+
+}
