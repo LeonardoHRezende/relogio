@@ -19,6 +19,19 @@ export default function Home() {
   const [segundos, setSegundos] = useState('00')
 
   const [temp, setTemp] = useState(0);
+  const [dayOne, setDayOne] = useState('');
+  const [dayTwo, setDayTwo] = useState('');
+  const [dayThree, setDayThree] = useState('');
+  const [dayFour, setDayFour] = useState('');
+  const [dayFive, setDayFive] = useState('');
+  const [daySix, setDaySix] = useState('');
+
+  let unix_timestamp = dayOne.dt
+  // Create a new JavaScript Date object based on the timestamp
+  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+  var date = new Date(unix_timestamp * 1000);
+
+
 
 
   function mudaHoras() {
@@ -73,7 +86,16 @@ export default function Home() {
         console.log(data)
         if (status == 200 && data) {
           var temp = Math.round(data.current.temp)
+          var daily = data.daily
+          
           setTemp(temp)
+          setDayOne(daily[0])
+          setDayTwo(daily[1])
+          setDayThree(daily[2])
+          setDayFour(daily[3])
+          setDayFive(daily[4])
+          setDaySix(daily[5])
+
         }
         else {
 
