@@ -6,15 +6,14 @@ const simulacao = async (req, res) => {
 
     const { method, query, body } = req;
     
-    const lon = body.lon ? body.lon : -46.6388
-    const lat = body.lat ? body.lat : -23.5489
+    const cidade = body.cidade ? body.cidade : null
     
     switch (method) {
       case 'POST':
 
         var config = {
           method: 'post',
-          url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&lang=pt_br&appid=e8e4da9dfdcba0f7a2447f2028d333e1&units=metric`
+          url: `https://nominatim.openstreetmap.org/search/?city=sao%20paulo&format=json`
         };
 
         const retorno_analise = await axios(config)
@@ -27,6 +26,7 @@ const simulacao = async (req, res) => {
             return obj_retorno;
           })
           .catch(function (error) {
+
             var obj_retorno = {
               message: error.response.data ? error.response.data : null,
               status: error.response.status ? error.response.status : null
