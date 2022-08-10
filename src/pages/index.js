@@ -321,7 +321,7 @@ function Home({ dados }) {
      daySixImage = MoonLight
   }
   else {
-
+    var daySixImage = Clouds
   }
 
   const [search, setSearch] = useState(null);
